@@ -50,3 +50,8 @@ weight = 30
   [markup.goldmark]
     [markup.goldmark.renderer]
       unsafe = true
+
+[[menus.main]]
+name = "🔒 私密相册"
+url = "/private-album/"
+weight = 25

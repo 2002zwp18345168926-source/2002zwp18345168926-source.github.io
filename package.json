@@ -1,0 +1,24 @@
+{
+  "name": "myblog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/2002zwp18345168926-source/2002zwp18345168926-source.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/2002zwp18345168926-source/2002zwp18345168926-source.github.io/issues"
+  },
+  "homepage": "https://github.com/2002zwp18345168926-source/2002zwp18345168926-source.github.io#readme",
+  "devDependencies": {
+    "staticrypt": "^3.5.4"
+  }
+}
