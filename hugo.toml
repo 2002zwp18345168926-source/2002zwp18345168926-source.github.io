@@ -1,0 +1,56 @@
+baseURL = 'https://2002zwp18345168926-source.github.io/'
+languageCode = 'zh-cn'
+title = '我的博客'
+canonifyURLs = true
+
+[[menus.main]]
+name = '首页'
+pageRef = '/'
+weight = 10
+
+[[menus.main]]
+name = '标签'
+pageRef = '/tags/'
+weight = 20
+
+[[menus.main]]
+name = '关于'
+pageRef = '/about/'
+weight = 30
+
+[[menus.main]]
+name = "相册"
+pageRef = "/gallery/"
+weight = 25
+
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.116.0"
+
+  [[module.imports]]
+    path = "github.com/elecbrandy/freshpink"
+
+[params]
+  # 网站信息
+  copyright = "Copyright © 2026 WanPing"
+
+  # 主题颜色
+  primaryColor = "#fa8b84"
+  math = true
+
+  # GitHub 方格图
+  githubUsername = "elecbrandy"
+  showGithubChart = true
+
+  # 首页粉色主图
+  mainImageUrl = "https://i.imgur.com/URQWyyY.png"
+  showMainImage = true
+
+[taxonomies]
+  tag = 'tags'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
