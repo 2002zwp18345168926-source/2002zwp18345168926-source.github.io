@@ -1,0 +1,436 @@
+<section class="mood-calendar" aria-labelledby="mood-calendar-title">
+
+  <div class="mood-calendar-header">
+    <div>
+      <h2 id="mood-calendar-title">心情日历</h2>
+      <p>用一种颜色，记录每一天的心情。</p>
+    </div>
+
+    <div class="mood-calendar-nav">
+      <button
+        id="mood-prev-month"
+        type="button"
+        aria-label="上个月"
+      >
+        ‹
+      </button>
+
+      <strong id="mood-month-title"></strong>
+
+      <button
+        id="mood-next-month"
+        type="button"
+        aria-label="下个月"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+
+  <div class="mood-weekdays" aria-hidden="true">
+    <span>一</span>
+    <span>二</span>
+    <span>三</span>
+    <span>四</span>
+    <span>五</span>
+    <span>六</span>
+    <span>日</span>
+  </div>
+
+  <div
+    id="mood-calendar-grid"
+    class="mood-calendar-grid"
+  ></div>
+
+  <div class="mood-legend">
+    <span><i style="--legend-color:#e85d75"></i>超开心</span>
+    <span><i style="--legend-color:#f28c8c"></i>开心</span>
+    <span><i style="--legend-color:#f6c1c1"></i>平静</span>
+    <span><i style="--legend-color:#a8b8d8"></i>疲惫</span>
+    <span><i style="--legend-color:#7d88a8"></i>难过</span>
+  </div>
+
+  <p id="mood-calendar-detail" class="mood-calendar-detail">
+    点击有颜色的日期，可以查看当天的心情记录。
+  </p>
+
+</section>
+
+<style>
+.mood-calendar {
+  margin: 32px 0 38px;
+  padding: 24px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 14px;
+}
+
+.mood-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.mood-calendar-header h2 {
+  margin: 0 0 5px;
+  font-size: 1.25rem;
+}
+
+.mood-calendar-header p {
+  margin: 0;
+  opacity: 0.65;
+  font-size: 0.88rem;
+}
+
+.mood-calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.mood-calendar-nav strong {
+  min-width: 105px;
+  text-align: center;
+}
+
+.mood-calendar-nav button {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid rgba(128, 128, 128, 0.38);
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.mood-calendar-nav button:hover {
+  transform: translateY(-1px);
+  border-color: #fa8b84;
+}
+
+.mood-weekdays,
+.mood-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mood-weekdays {
+  margin-bottom: 8px;
+  opacity: 0.58;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.mood-calendar-day {
+  position: relative;
+  aspect-ratio: 1 / 0.82;
+  min-height: 54px;
+  padding: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.28);
+  border-radius: 9px;
+  background: rgba(128, 128, 128, 0.07);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: default;
+}
+
+.mood-calendar-day.has-mood {
+  background: var(--mood-color);
+  border-color: transparent;
+  color: #242424;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    filter 0.15s ease;
+}
+
+.mood-calendar-day.has-mood:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.mood-calendar-day[data-mood="great"],
+.mood-calendar-day[data-mood="sad"] {
+  color: #ffffff;
+}
+
+.mood-calendar-day.is-today {
+  box-shadow:
+    0 0 0 2px #fa8b84,
+    inset 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
+.mood-calendar-day-number {
+  font-weight: 700;
+  font-size: 0.88rem;
+}
+
+.mood-calendar-day-label {
+  position: absolute;
+  right: 7px;
+  bottom: 6px;
+  left: 7px;
+  overflow: hidden;
+  font-size: 0.67rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.82;
+}
+
+.mood-calendar-empty {
+  visibility: hidden;
+}
+
+.mood-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  margin-top: 20px;
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.mood-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mood-legend i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+  background: var(--legend-color);
+}
+
+.mood-calendar-detail {
+  min-height: 1.4em;
+  margin: 17px 0 0;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(128, 128, 128, 0.3);
+  font-size: 0.85rem;
+  opacity: 0.78;
+}
+
+@media (max-width: 650px) {
+  .mood-calendar {
+    padding: 17px 12px;
+  }
+
+  .mood-calendar-header {
+    display: block;
+  }
+
+  .mood-calendar-nav {
+    justify-content: space-between;
+    margin-top: 18px;
+  }
+
+  .mood-weekdays,
+  .mood-calendar-grid {
+    gap: 4px;
+  }
+
+  .mood-calendar-day {
+    min-height: 43px;
+    padding: 5px;
+    border-radius: 7px;
+  }
+
+  .mood-calendar-day-label {
+    display: none;
+  }
+}
+</style>
+
+<script>
+(() => {
+  const moodColors = {
+    great: {
+      label: "超开心",
+      color: "#e85d75",
+      emoji: "🥰"
+    },
+    good: {
+      label: "开心",
+      color: "#f28c8c",
+      emoji: "😊"
+    },
+    calm: {
+      label: "平静",
+      color: "#f6c1c1",
+      emoji: "😌"
+    },
+    tired: {
+      label: "疲惫",
+      color: "#a8b8d8",
+      emoji: "😴"
+    },
+    sad: {
+      label: "难过",
+      color: "#7d88a8",
+      emoji: "😔"
+    }
+  };
+
+  const dataUrl = '{{ "data/moods.json" | relURL }}';
+
+  const grid = document.getElementById("mood-calendar-grid");
+  const monthTitle = document.getElementById("mood-month-title");
+  const detail = document.getElementById("mood-calendar-detail");
+  const previousButton = document.getElementById("mood-prev-month");
+  const nextButton = document.getElementById("mood-next-month");
+
+  if (!grid || !monthTitle) {
+    return;
+  }
+
+  let moodRecords = {};
+  let visibleDate = new Date();
+  visibleDate.setDate(1);
+
+  function pad(number) {
+    return String(number).padStart(2, "0");
+  }
+
+  function dateKey(year, month, day) {
+    return `${year}-${pad(month + 1)}-${pad(day)}`;
+  }
+
+  function isToday(year, month, day) {
+    const today = new Date();
+
+    return (
+      year === today.getFullYear() &&
+      month === today.getMonth() &&
+      day === today.getDate()
+    );
+  }
+
+  function createEmptyCell() {
+    const cell = document.createElement("div");
+    cell.className = "mood-calendar-empty";
+    return cell;
+  }
+
+  function showDetails(key, record) {
+    const mood = moodColors[record.mood];
+
+    if (!mood) {
+      return;
+    }
+
+    const note = record.note
+      ? `｜${record.note}`
+      : "";
+
+    detail.textContent =
+      `${key}　${mood.emoji} ${mood.label} ${note}`;
+  }
+
+  function renderCalendar() {
+    grid.replaceChildren();
+
+    const year = visibleDate.getFullYear();
+    const month = visibleDate.getMonth();
+
+    monthTitle.textContent = `${year}年${month + 1}月`;
+
+    const firstWeekday =
+      (new Date(year, month, 1).getDay() + 6) % 7;
+
+    const daysInMonth =
+      new Date(year, month + 1, 0).getDate();
+
+    for (let index = 0; index < firstWeekday; index += 1) {
+      grid.appendChild(createEmptyCell());
+    }
+
+    for (let day = 1; day <= daysInMonth; day += 1) {
+      const key = dateKey(year, month, day);
+      const record = moodRecords[key];
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "mood-calendar-day";
+      button.setAttribute("aria-label", key);
+
+      if (isToday(year, month, day)) {
+        button.classList.add("is-today");
+      }
+
+      const dayNumber = document.createElement("span");
+      dayNumber.className = "mood-calendar-day-number";
+      dayNumber.textContent = day;
+      button.appendChild(dayNumber);
+
+      if (record && moodColors[record.mood]) {
+        const mood = moodColors[record.mood];
+
+        button.classList.add("has-mood");
+        button.dataset.mood = record.mood;
+        button.style.setProperty("--mood-color", mood.color);
+
+        const label = document.createElement("span");
+        label.className = "mood-calendar-day-label";
+        label.textContent = mood.label;
+        button.appendChild(label);
+
+        button.title =
+          `${key}：${mood.label}` +
+          (record.note ? `｜${record.note}` : "");
+
+        button.addEventListener("click", () => {
+          showDetails(key, record);
+        });
+      }
+
+      grid.appendChild(button);
+    }
+
+    const totalCells = firstWeekday + daysInMonth;
+    const trailingCells = (7 - totalCells % 7) % 7;
+
+    for (let index = 0; index < trailingCells; index += 1) {
+      grid.appendChild(createEmptyCell());
+    }
+  }
+
+  previousButton.addEventListener("click", () => {
+    visibleDate.setMonth(visibleDate.getMonth() - 1);
+    renderCalendar();
+  });
+
+  nextButton.addEventListener("click", () => {
+    visibleDate.setMonth(visibleDate.getMonth() + 1);
+    renderCalendar();
+  });
+
+  fetch(dataUrl, { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      return response.json();
+    })
+    .then((data) => {
+      moodRecords = data || {};
+      renderCalendar();
+    })
+    .catch((error) => {
+      console.warn("无法读取心情记录：", error);
+      moodRecords = {};
+      renderCalendar();
+    });
+})();
+</script>
